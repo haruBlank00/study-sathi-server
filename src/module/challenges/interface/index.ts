@@ -7,6 +7,7 @@ export interface ChallengeDocument extends Document {
   days: number;
   privacy: string;
   tags: string[];
+  userId: string;
 }
 
 export type CreateChallengeResponse =

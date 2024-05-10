@@ -6,6 +6,7 @@ import { CHALLENGES_MODEL } from './constants';
 import { ChallengeSchema } from './schema/challenge-schema';
 import { TagsModule } from 'src/module/tags/tags.module';
 import { TagsService } from 'src/module/tags/tags.service';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TagsService } from 'src/module/tags/tags.service';
       },
     ]),
     TagsModule,
+    UsersModule,
   ],
   providers: [ChallengesService, TagsService],
   controllers: [ChallengesController],

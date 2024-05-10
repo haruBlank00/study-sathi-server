@@ -19,7 +19,6 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    // return true;
 
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
@@ -30,7 +29,6 @@ export class AuthGuard implements CanActivate {
     }
 
     const token = this.extractTokenFromHeader(request);
-    console.log({ token });
     if (!token) {
       throw new UnauthorizedException(
         "You're not authenticated. Please login.",
@@ -38,9 +36,14 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      await this.jwtService.verifyAsync(token, {
+      const payload = await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET,
       });
+
+      console.log({ payload });
+      request.user = {
+        email: payload.email,
+      };
       return true;
     } catch (error) {
       console.log({ error });
@@ -48,7 +51,6 @@ export class AuthGuard implements CanActivate {
         "You're not authenticated. Please login.",
       );
     }
-    return false;
   }
 
   private extractTokenFromHeader(request: ExtendedRequest): string | undefined {

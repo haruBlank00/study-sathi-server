@@ -12,17 +12,21 @@ import {
   GetChallengesResponse,
   PatchChallengeResponse,
 } from './interface';
+import { USER_MODEL } from 'src/module/users/constants';
+import { UserDocument } from 'src/module/users/interface/user.interface';
 
 @Injectable()
 export class ChallengesService {
   constructor(
     @InjectModel(CHALLENGES_MODEL)
     private challengeModel: Model<ChallengeDocument>,
+    @InjectModel(USER_MODEL) private userModel: Model<UserDocument>,
 
     private tagsService: TagsService,
   ) {}
   async createChallenge(
     data: CreateChallengeDto,
+    email: string | string[],
   ): Promise<CreateChallengeResponse> {
     const { tags, ...rest } = data;
 
@@ -45,6 +49,15 @@ export class ChallengesService {
         tags: tagsResult.data.tags,
       });
 
+      const user = await this.userModel.findOne({ email });
+      challenge.userId = user._id;
+      challenge.save();
+
+      // const user = await this.userModel.findOneAndUpdate(
+      //   { email },
+      //   { $push: { challenges: { ...rest, tags: tagsResult.data.tags } } },
+      //   { new: true, upsert: true },
+      // );
       return {
         success: true,
         data: {

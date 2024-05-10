@@ -26,7 +26,6 @@ async function bootstrap() {
       },
     }),
   );
-
   app.use(cookirParser());
 
   app.use(helmet());

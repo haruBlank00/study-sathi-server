@@ -8,27 +8,45 @@ import {
   Param,
   Patch,
   Post,
+  Req,
+  Res,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDto } from './dto/create';
+import { Request, Response } from 'express';
+
+interface ExtendedRequest extends Request {
+  user: {
+    email: string;
+  };
+}
 
 @Controller('challenges')
 export class ChallengesController {
   constructor(private challengesService: ChallengesService) {}
 
   @Post()
-  async createChallenge(@Body() body: CreateChallengeDto) {
-    const { data, error, success } =
-      await this.challengesService.createChallenge(body);
+  async createChallenge(
+    @Body() body: CreateChallengeDto,
+    @Req() request: ExtendedRequest,
+    @Res() response: Response,
+  ) {
+    const email = request.user.email;
+    if (!email) {
+      throw new UnauthorizedException('You are not authenticated.');
+    }
 
+    const { data, error, success } =
+      await this.challengesService.createChallenge(body, email);
     if (!success) {
       throw new HttpException(error.message, HttpStatus.EXPECTATION_FAILED);
     }
 
-    return {
+    return response.json({
       success: true,
       data,
-    };
+    });
   }
 
   @Get(':challengeId')

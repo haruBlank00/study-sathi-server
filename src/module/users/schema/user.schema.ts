@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { CHALLENGES_MODEL } from 'src/module/challenges/constants';
 import { MAGIC_LINK_MODEL } from 'src/module/magic_link/constants';
 
 export const UserSchema = new mongoose.Schema({
@@ -15,6 +16,13 @@ export const UserSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: MAGIC_LINK_MODEL,
+    },
+  ],
+
+  challenges: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: CHALLENGES_MODEL,
     },
   ],
 });

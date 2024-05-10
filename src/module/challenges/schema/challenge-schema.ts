@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import { TAGS_MODEL } from 'src/module/tags/constants';
+import { USER_MODEL } from 'src/module/users/constants';
 
 export const ChallengeSchema = new mongoose.Schema({
   createdAt: {
@@ -29,4 +30,8 @@ export const ChallengeSchema = new mongoose.Schema({
       ref: TAGS_MODEL,
     },
   ],
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: USER_MODEL,
+  },
 });
