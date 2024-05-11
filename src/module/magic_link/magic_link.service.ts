@@ -66,19 +66,14 @@ export class MagicLinkService implements MagicLinkServiceInterface {
     if (!result.success) {
       return {
         success: false,
-        data: null,
-        error: {
-          message: 'OOPS! Failed to send magic link.',
-        },
+        message: 'OOPS! Failed to send magic link.',
       };
     }
 
     return {
       success: true,
-      error: null,
-      data: {
-        message: 'Magic link has been sent to your email.',
-      },
+      message: 'Magic link has been sent to your email.',
+      data: {},
     };
   }
 
@@ -91,9 +86,8 @@ export class MagicLinkService implements MagicLinkServiceInterface {
 
     if (!tokenResult.success) {
       return {
-        data: null,
         success: false,
-        error: tokenResult.error,
+        message: tokenResult.error.message,
       };
     }
 
@@ -106,11 +100,8 @@ export class MagicLinkService implements MagicLinkServiceInterface {
 
     if (!magicLinkDocument) {
       return {
-        data: null,
         success: false,
-        error: {
-          message: "Couldn't verify your token. Are you a hacker?",
-        },
+        message: "Couldn't verify your token. Are you a hacker?",
       };
     }
 
@@ -118,11 +109,8 @@ export class MagicLinkService implements MagicLinkServiceInterface {
     const tokenMatches = existingToken === token;
     if (!tokenMatches) {
       return {
-        data: null,
         success: false,
-        error: {
-          message: "Couldn't verify your token. Are you a hacker?",
-        },
+        message: "Couldn't verify your token. Are you a hacker?",
       };
     }
 
@@ -138,11 +126,13 @@ export class MagicLinkService implements MagicLinkServiceInterface {
     const { accessToken, refreshToken } = await this.generateTokens(email);
 
     return {
-      error: null,
       success: true,
+      message: 'Your magic link has been verified successfully.',
       data: {
-        accessToken,
-        refreshToken,
+        tokens: {
+          accessToken,
+          refreshToken,
+        },
       },
     };
   }

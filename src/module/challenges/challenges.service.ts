@@ -5,7 +5,7 @@ import { TagsService } from '../tags/tags.service';
 import { CHALLENGES_MODEL } from './constants';
 import { CreateChallengeDto } from './dto/create';
 import {
-  ChallengeDocument,
+  Challenge,
   CreateChallengeResponse,
   DeleteChallengeResponse,
   GetChallengeResponse,
@@ -13,14 +13,14 @@ import {
   PatchChallengeResponse,
 } from './interface';
 import { USER_MODEL } from 'src/module/users/constants';
-import { UserDocument } from 'src/module/users/interface/user.interface';
+import { User } from 'src/module/users/interface/user.interface';
 
 @Injectable()
 export class ChallengesService {
   constructor(
     @InjectModel(CHALLENGES_MODEL)
-    private challengeModel: Model<ChallengeDocument>,
-    @InjectModel(USER_MODEL) private userModel: Model<UserDocument>,
+    private challengeModel: Model<Challenge>,
+    @InjectModel(USER_MODEL) private userModel: Model<User>,
 
     private tagsService: TagsService,
   ) {}
@@ -36,10 +36,7 @@ export class ChallengesService {
     if (!tagsResult.success) {
       return {
         success: false,
-        data: null,
-        error: {
-          message: tagsResult.error.message,
-        },
+        message: tagsResult.error.message,
       };
     }
 
@@ -60,19 +57,15 @@ export class ChallengesService {
       // );
       return {
         success: true,
+        message: 'Challenge created successfully.',
         data: {
-          message: 'Challenge created successfully.',
           challenge,
         },
-        error: null,
       };
     } catch (e) {
       return {
         success: false,
-        data: null,
-        error: {
-          message: e.message,
-        },
+        message: e.message,
       };
     }
   }
@@ -87,29 +80,22 @@ export class ChallengesService {
 
       if (!challenge) {
         return {
+          message: 'Challenge not found.',
           success: false,
-          data: null,
-          error: {
-            message: 'Challenge not found.',
-          },
         };
       }
 
       return {
         success: true,
+        message: 'Challenge fetched successfully.',
         data: {
-          message: 'Challenge fetched successfully.',
           challenge,
         },
-        error: null,
       };
     } catch (e) {
       return {
         success: false,
-        data: null,
-        error: {
-          message: e.message,
-        },
+        message: e.message,
       };
     }
   }
@@ -133,27 +119,20 @@ export class ChallengesService {
       if (!challenge) {
         return {
           success: false,
-          data: null,
-          error: {
-            message: "Challenge doesn't exist.",
-          },
+          message: "Challenge doesn't exist.",
         };
       }
       return {
         success: true,
+        message: 'Challenge updated successfully.',
         data: {
           challenge,
-          message: 'Challenge updated successfully.',
         },
-        error: null,
       };
     } catch (e) {
       return {
         success: false,
-        data: null,
-        error: {
-          message: e.message,
-        },
+        message: e.message,
       };
     }
   }
@@ -167,28 +146,21 @@ export class ChallengesService {
       if (!challenge) {
         return {
           success: false,
-          data: null,
-          error: {
-            message: 'Challenge not found.',
-          },
+          message: 'Challenge not found.',
         };
       }
 
       return {
         success: true,
+        message: 'Challenge deleted successfully.',
         data: {
           challenge,
-          message: 'Challenge deleted successfully.',
         },
-        error: null,
       };
     } catch (e) {
       return {
         success: false,
-        data: null,
-        error: {
-          message: e.message,
-        },
+        message: e.message,
       };
     }
   }
@@ -198,19 +170,15 @@ export class ChallengesService {
       const challenges = await this.challengeModel.find({}).populate('tags');
       return {
         success: true,
+        message: 'Challenges fetched successfully.',
         data: {
-          message: 'Challenges fetched successfully.',
           challenges,
         },
-        error: null,
       };
     } catch (e) {
       return {
         success: false,
-        data: null,
-        error: {
-          message: e.message,
-        },
+        message: e.message,
       };
     }
   }

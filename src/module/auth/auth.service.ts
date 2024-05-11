@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AUTH_MODEL } from './constants';
-import { AuthDocument } from './interfaces';
+import { Auth } from './interfaces';
 import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel(AUTH_MODEL) private authModel: Model<AuthDocument>,
+    @InjectModel(AUTH_MODEL) private authModel: Model<Auth>,
     private jwtService: JwtService,
   ) {}
 
@@ -18,13 +18,11 @@ export class AuthService {
      * if it is, generate a new access / refresh token
      * else throw unauthenticated error
      */
-    const { success, error } = await this.verifyToken(token);
+    const result = await this.verifyToken(token);
 
-    if (!success) {
+    if (!result.success) {
       return {
         success: false,
-        error,
-        data: null,
       };
     }
 
@@ -33,8 +31,7 @@ export class AuthService {
     const tokens = await this.generateTokens(decodedToken.email);
     return {
       success: true,
-      error: null,
-      data: tokens,
+      tokens,
     };
   }
 
@@ -61,13 +58,11 @@ export class AuthService {
       await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET,
       });
-      return { success: true, data: 'Token verified.' };
+      return { success: true, message: 'Token verified.' };
     } catch (error) {
       return {
         success: false,
-        error: {
-          message: error.message,
-        },
+        message: error.message,
       };
     }
   }

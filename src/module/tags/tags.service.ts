@@ -3,11 +3,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TAGS_MODEL } from './constants';
 import { CreateTagDto } from './dto/create';
-import { CreateTagResponse, TagDocument } from './interface';
+import { CreateTagResponse, Tag } from './interface';
 
 @Injectable()
 export class TagsService {
-  constructor(@InjectModel(TAGS_MODEL) private tagModel: Model<TagDocument>) {}
+  constructor(@InjectModel(TAGS_MODEL) private tagModel: Model<Tag>) {}
 
   async createTag(data: CreateTagDto): Promise<CreateTagResponse> {
     try {
@@ -35,22 +35,19 @@ export class TagsService {
         };
       });
       await this.tagModel.bulkWrite(bulkOps);
-      const upsertedTagas = await this.tagModel.find({
+      const upsertedTagas = await this.tagModel.findOne<Tag>({
         $or: tagsFilter,
       });
       console.log({ upsertedTagas });
       return {
         success: true,
+        message: 'Tags created successfully',
         data: { tags: upsertedTagas },
-        error: null,
       };
     } catch (e) {
       return {
         success: false,
-        data: null,
-        error: {
-          message: e.message,
-        },
+        message: e.message,
       };
     }
   }

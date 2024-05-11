@@ -1,11 +1,11 @@
-export interface ErrorResponse<T> {
+export interface ErrorResponse {
   success: false;
-  error: T;
-  data: null;
+  // error: T;
+  message: string;
 }
 
-export interface SuccessResponse<T> {
-  success: true;
+export type SuccessResponse<T = any> = {
   data: T;
-  error: null;
-}
+  success: true;
+  message: string;
+};

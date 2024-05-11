@@ -24,9 +24,7 @@ export class AuthController {
 
     return {
       success: true,
-      data: {
-        tokens: result.data,
-      },
+      tokens: result.tokens,
     };
   }
 }

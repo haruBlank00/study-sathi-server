@@ -13,10 +13,7 @@ export interface EmailProps {
 
 export type SendEmailResponse = Promise<
   | SuccessResponse<{
-      message: string;
       id: string;
     }>
-  | ErrorResponse<{
-      message: string;
-    }>
+  | ErrorResponse
 >;

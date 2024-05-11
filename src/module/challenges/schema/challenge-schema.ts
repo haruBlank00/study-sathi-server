@@ -1,8 +1,9 @@
 import * as mongoose from 'mongoose';
 import { TAGS_MODEL } from 'src/module/tags/constants';
 import { USER_MODEL } from 'src/module/users/constants';
+import { Challenge } from '../interface';
 
-export const ChallengeSchema = new mongoose.Schema({
+export const ChallengeSchema = new mongoose.Schema<Challenge>({
   createdAt: {
     type: Date,
     default: Date.now,

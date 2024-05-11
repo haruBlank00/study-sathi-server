@@ -1,46 +1,40 @@
-import { Document } from 'mongoose';
+import mongoose from 'mongoose';
 import { ErrorResponse, SuccessResponse } from 'src/ts/interface';
 
-export interface ChallengeDocument extends Document {
+export interface Challenge {
+  createdAt: Date;
   name: string;
   description: string;
   days: number;
   privacy: string;
   tags: string[];
-  userId: string;
+  userId: { type: typeof mongoose.Schema.Types.ObjectId; ref: string };
 }
 
 export type CreateChallengeResponse =
-  | SuccessResponse<{
-      message: string;
-      challenge: ChallengeDocument;
-    }>
-  | ErrorResponse<{ message: string }>;
+  | SuccessResponse<{ challenge: Challenge }>
+  | ErrorResponse;
 
 export type GetChallengeResponse =
   | SuccessResponse<{
-      message: string;
-      challenge: ChallengeDocument;
+      challenge: Challenge;
     }>
-  | ErrorResponse<{ message: string }>;
+  | ErrorResponse;
 
 export type PatchChallengeResponse =
   | SuccessResponse<{
-      message: string;
-      challenge: ChallengeDocument;
+      challenge: Challenge;
     }>
-  | ErrorResponse<{ message: string }>;
+  | ErrorResponse;
 
 export type DeleteChallengeResponse =
   | SuccessResponse<{
-      message: string;
-      challenge: ChallengeDocument;
+      challenge: Challenge;
     }>
-  | ErrorResponse<{ message: string }>;
+  | ErrorResponse;
 
 export type GetChallengesResponse =
   | SuccessResponse<{
-      message: string;
-      challenges: ChallengeDocument[];
+      challenges: Challenge[];
     }>
-  | ErrorResponse<{ message: string }>;
+  | ErrorResponse;

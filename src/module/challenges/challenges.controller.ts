@@ -37,29 +37,39 @@ export class ChallengesController {
       throw new UnauthorizedException('You are not authenticated.');
     }
 
-    const { data, error, success } =
-      await this.challengesService.createChallenge(body, email);
-    if (!success) {
-      throw new HttpException(error.message, HttpStatus.EXPECTATION_FAILED);
+    const result = await this.challengesService.createChallenge(body, email);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.EXPECTATION_FAILED);
     }
 
+    /**
+     * how i want to return response?
+     * {
+     *  success: boolean
+     * challenge: TChallenge,
+     * message: string
+     * }
+     */
+    const challenge = result.data.challenge;
     return response.json({
       success: true,
-      data,
+      challenge,
+      message: 'Challenge created successfully.',
     });
   }
 
   @Get(':challengeId')
   async getChallenge(@Param('challengeId') challengeId: string) {
-    const { data, error, success } =
-      await this.challengesService.getChallenge(challengeId);
+    const result = await this.challengesService.getChallenge(challengeId);
 
-    if (!success) {
-      throw new HttpException(error.message, HttpStatus.EXPECTATION_FAILED);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.EXPECTATION_FAILED);
     }
+    const challenge = result.data.challenge;
     return {
       success: true,
-      data,
+      challenge,
+      message: 'Challenge fetched successfully.',
     };
   }
 
@@ -68,48 +78,51 @@ export class ChallengesController {
     @Param('challengeId') challengeId: string,
     @Body() body: Partial<CreateChallengeDto>,
   ) {
-    const { success, data, error } =
-      await this.challengesService.patchChallenge(challengeId, body);
+    const result = await this.challengesService.patchChallenge(
+      challengeId,
+      body,
+    );
 
-    if (!success) {
-      throw new HttpException(error.message, HttpStatus.EXPECTATION_FAILED);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.EXPECTATION_FAILED);
     }
 
+    const challenge = result.data.challenge;
     return {
       success: true,
-      data,
+      challenge,
+      message: 'Challenge updated successfully.',
     };
   }
 
   @Delete(':challengeId')
   async deleteChallenge(@Param('challengeId') challengeId: string) {
-    const { data, error, success } =
-      await this.challengesService.deleteChallenge(challengeId);
+    const result = await this.challengesService.deleteChallenge(challengeId);
 
-    if (!success) {
-      throw new HttpException(error.message, HttpStatus.EXPECTATION_FAILED);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.EXPECTATION_FAILED);
     }
 
     return {
       success: true,
-      data,
-      error: null,
+      message: 'Challenge deleted successfully.',
+      data: {},
     };
   }
 
   @Get()
   async getChallenges() {
-    const { data, error, success } =
-      await this.challengesService.getChallenges();
+    const result = await this.challengesService.getChallenges();
 
-    if (!success) {
-      throw new HttpException(error.message, HttpStatus.EXPECTATION_FAILED);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.EXPECTATION_FAILED);
     }
 
+    const challenges = result.data.challenges;
     return {
       success: true,
-      data,
-      error: null,
+      challenges,
+      message: 'Challenges fetched successfully.',
     };
   }
 }

@@ -1,6 +1,6 @@
 import { ErrorResponse, SuccessResponse } from 'src/ts/interface';
 
-export interface TagDocument extends Document {
+export interface Tag {
   name: string;
   normalized: string;
   count: number;
@@ -8,6 +8,6 @@ export interface TagDocument extends Document {
 
 export type CreateTagResponse =
   | SuccessResponse<{
-      tags: any;
+      tags: Tag;
     }>
-  | ErrorResponse<{ message: string }>;
+  | ErrorResponse;

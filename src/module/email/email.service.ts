@@ -84,10 +84,9 @@ export class EmailService implements EmailServiceInterface {
         }),
       );
       return {
-        error: null,
         success: true,
+        message: 'Email sent successfully.',
         data: {
-          message: 'Email sent successfully.',
           id: response.MessageId,
         },
       };
@@ -99,21 +98,15 @@ export class EmailService implements EmailServiceInterface {
           trace: e.stack,
         });
         return {
-          data: null,
           success: false,
-          error: {
-            message: e.message,
-          },
+          message: e.message,
         };
       }
       console.log({ e });
       console.log('what');
       return {
-        data: null,
         success: false,
-        error: {
-          message: e.message,
-        },
+        message: e.message,
       };
     }
   }

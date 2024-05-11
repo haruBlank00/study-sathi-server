@@ -11,20 +11,16 @@ export interface MagicLinkDocument extends Document {
   hasBeenUsed: boolean;
 }
 
-export type SendMagicLinkResponse =
-  | SuccessResponse<{
-      message: string;
-    }>
-  | ErrorResponse<{ message: string }>;
+export type SendMagicLinkResponse = SuccessResponse | ErrorResponse;
 
 export type VerifyMagicLinkResponse =
   | SuccessResponse<{
-      accessToken: string;
-      refreshToken: string;
+      tokens: {
+        accessToken: string;
+        refreshToken: string;
+      };
     }>
-  | ErrorResponse<{
-      message: string;
-    }>;
+  | ErrorResponse;
 
 export interface MagicLinkServiceInterface {
   sendMagicLink({ email }: SendMagicLinkDto): Promise<SendMagicLinkResponse>;

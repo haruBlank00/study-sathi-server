@@ -1,4 +1,11 @@
 import mongoose from 'mongoose';
-import { AuthSchema } from '../schemas/auth.schema';
 
-export type AuthDocument = mongoose.Document & typeof AuthSchema;
+type Token = {
+  access: string;
+  refresh: string;
+};
+export interface Auth {
+  userId: mongoose.Schema.Types.ObjectId;
+  createdAt: Date;
+  token: Token;
+}
