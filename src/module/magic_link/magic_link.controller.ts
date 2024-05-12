@@ -27,12 +27,8 @@ export class MagicLinkController {
   async sendMagicLink(@Body() sendMagicLinkDto: SendMagicLinkDto) {
     const result = await this.magicLinkService.sendMagicLink(sendMagicLinkDto);
 
-    console.log({ result }, '***');
     if (!result.success) {
-      throw new HttpException(
-        result.error.message,
-        HttpStatus.EXPECTATION_FAILED,
-      );
+      throw new HttpException(result.message, HttpStatus.EXPECTATION_FAILED);
     }
 
     return {
@@ -46,18 +42,13 @@ export class MagicLinkController {
     const result = await this.magicLinkService.verifyMagicLink(verifyMagicLink);
 
     if (!result.success) {
-      throw new HttpException(
-        result.error.message,
-        HttpStatus.EXPECTATION_FAILED,
-      );
+      throw new HttpException(result.message, HttpStatus.EXPECTATION_FAILED);
     }
 
     return {
       success: true,
-      data: {
-        message: 'Your magic link has been verified successfully.',
-        tokens: result.data,
-      },
+      message: 'Your magic link has been verified successfully.',
+      tokens: result.data.tokens,
     };
   }
 }

@@ -18,6 +18,7 @@ export class TagsService {
           normalized: tag.slice(1).toLowerCase(),
         };
       });
+
       const bulkOps = tagsFilter.map((tag) => {
         return {
           updateOne: {
@@ -35,14 +36,13 @@ export class TagsService {
         };
       });
       await this.tagModel.bulkWrite(bulkOps);
-      const upsertedTagas = await this.tagModel.findOne<Tag>({
-        $or: tagsFilter,
+      const upsertedTags = await this.tagModel.find<Tag>({
+        tag: { $in: tagsFilter.map((tag) => tag.tag) },
       });
-      console.log({ upsertedTagas });
       return {
         success: true,
         message: 'Tags created successfully',
-        data: { tags: upsertedTagas },
+        data: { tags: upsertedTags },
       };
     } catch (e) {
       return {

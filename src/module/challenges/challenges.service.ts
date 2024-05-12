@@ -36,7 +36,7 @@ export class ChallengesService {
     if (!tagsResult.success) {
       return {
         success: false,
-        message: tagsResult.error.message,
+        message: tagsResult.message,
       };
     }
 
@@ -100,18 +100,32 @@ export class ChallengesService {
     }
   }
 
-  async patchChallenge(
+  async putChallenge(
     challengeId: string,
-    body: Partial<CreateChallengeDto>,
+    body: CreateChallengeDto,
   ): Promise<PatchChallengeResponse> {
     try {
+      const tags = body.tags;
+      delete body.tags;
+
+      const tagsResult = await this.tagsService.createTag({
+        tags: tags,
+      });
+
+      if (!tagsResult.success) {
+        return {
+          success: false,
+          message: tagsResult.message,
+        };
+      }
+
       const challenge = await this.challengeModel
         .findByIdAndUpdate(
           {
             _id: challengeId,
           },
           {
-            $set: body,
+            $set: { ...body, tags: tagsResult.data.tags },
           },
         )
         .populate('tags');

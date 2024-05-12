@@ -6,8 +6,8 @@ import {
   HttpException,
   HttpStatus,
   Param,
-  Patch,
   Post,
+  Put,
   Req,
   Res,
   UnauthorizedException,
@@ -73,15 +73,12 @@ export class ChallengesController {
     };
   }
 
-  @Patch(':challengeId')
-  async patchChallenge(
+  @Put(':challengeId')
+  async PutChallenge(
     @Param('challengeId') challengeId: string,
-    @Body() body: Partial<CreateChallengeDto>,
+    @Body() body: CreateChallengeDto,
   ) {
-    const result = await this.challengesService.patchChallenge(
-      challengeId,
-      body,
-    );
+    const result = await this.challengesService.putChallenge(challengeId, body);
 
     if (!result.success) {
       throw new HttpException(result.message, HttpStatus.EXPECTATION_FAILED);

@@ -1,13 +1,12 @@
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
-  HttpException,
   BadRequestException,
+  Catch,
+  ExceptionFilter,
+  HttpException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { LoggerService } from '../logger/logger.service';
-import { ValidationError } from 'class-validator';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -16,7 +15,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const request = ctx.getRequest<Request>();
+    // const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
 
     if (exception instanceof BadRequestException) {

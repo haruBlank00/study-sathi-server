@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UserDocument } from 'src/module/users/interface/user.interface';
+import { User } from 'src/module/users/interface/user.interface';
 import { EmailService } from '../email/email.service';
 import { USER_MODEL } from '../users/constants';
 import { MAGIC_LINK_MODEL } from './constants';
@@ -22,7 +22,7 @@ export class MagicLinkService implements MagicLinkServiceInterface {
     @InjectModel(MAGIC_LINK_MODEL)
     private magicLinkModel: Model<MagicLinkDocument>,
 
-    @InjectModel(USER_MODEL) private userModel: Model<UserDocument>,
+    @InjectModel(USER_MODEL) private userModel: Model<User>,
     private jwtService: JwtService,
     private emailService: EmailService,
   ) {}
@@ -81,7 +81,6 @@ export class MagicLinkService implements MagicLinkServiceInterface {
     email,
     token,
   }: VerifyMagicLinkDto): Promise<VerifyMagicLinkResponse> {
-    console.log({ email, token });
     const tokenResult = await this.verifyToken(token);
 
     if (!tokenResult.success) {

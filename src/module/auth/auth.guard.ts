@@ -40,7 +40,6 @@ export class AuthGuard implements CanActivate {
         secret: process.env.JWT_SECRET,
       });
 
-      console.log({ payload });
       request.user = {
         email: payload.email,
       };
