@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import { TAGS_MODEL } from 'src/module/tags/constants';
 import { USER_MODEL } from 'src/module/users/constants';
 import { Challenge } from '../interface';
+import { LOG_MODEL } from 'src/module/logs/constants';
 
 export const ChallengeSchema = new mongoose.Schema<Challenge>({
   createdAt: {
@@ -35,4 +36,10 @@ export const ChallengeSchema = new mongoose.Schema<Challenge>({
     type: mongoose.Schema.Types.ObjectId,
     ref: USER_MODEL,
   },
+  logs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: LOG_MODEL,
+    },
+  ],
 });

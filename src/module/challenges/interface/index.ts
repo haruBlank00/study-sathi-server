@@ -8,6 +8,8 @@ export interface Challenge {
   days: number;
   privacy: string;
   tags: string[];
+
+  logs: [{ type: typeof mongoose.Schema.Types.ObjectId; ref: string }];
   userId: { type: typeof mongoose.Schema.Types.ObjectId; ref: string };
 }
 

@@ -13,6 +13,7 @@ import { ThrottleModule } from './module/throttle/throttle.module';
 import { UsersModule } from './module/users/users.module';
 import { ChallengesModule } from './module/challenges/challenges.module';
 import { TagsModule } from './module/tags/tags.module';
+import { LogsModule } from './module/logs/logs.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { TagsModule } from './module/tags/tags.module';
     ThrottleModule,
     ChallengesModule,
     TagsModule,
+    LogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
