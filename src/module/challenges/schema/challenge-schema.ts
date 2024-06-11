@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import { TAGS_MODEL } from 'src/module/tags/constants';
 import { USER_MODEL } from 'src/module/users/constants';
 import { Challenge } from '../interface';
-import { LOG_MODEL } from 'src/module/logs/constants';
+import { LOG_MODEL } from 'src/module/challenge_logs/constants';
 
 export const ChallengeSchema = new mongoose.Schema<Challenge>({
   createdAt: {

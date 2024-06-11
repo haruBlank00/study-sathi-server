@@ -13,7 +13,7 @@ import { ThrottleModule } from './module/throttle/throttle.module';
 import { UsersModule } from './module/users/users.module';
 import { ChallengesModule } from './module/challenges/challenges.module';
 import { TagsModule } from './module/tags/tags.module';
-import { LogsModule } from './module/logs/logs.module';
+import { LogsModule } from './module/challenge_logs/logs.module';
 
 @Module({
   imports: [
