@@ -16,7 +16,7 @@ import { ChallengesService } from './challenges.service';
 import { CreateChallengeDto } from './dto/create';
 import { Request, Response } from 'express';
 
-interface ExtendedRequest extends Request {
+export interface ExtendedRequest extends Request {
   user: {
     email: string;
     userId: string;
