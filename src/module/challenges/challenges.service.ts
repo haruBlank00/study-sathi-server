@@ -26,7 +26,7 @@ export class ChallengesService {
   ) {}
   async createChallenge(
     data: CreateChallengeDto,
-    email: string | string[],
+    userId: string,
   ): Promise<CreateChallengeResponse> {
     const { tags, ...rest } = data;
 
@@ -44,11 +44,8 @@ export class ChallengesService {
       const challenge = await this.challengeModel.create({
         ...rest,
         tags: tagsResult.data.tags,
+        userId,
       });
-
-      const user = await this.userModel.findOne({ email });
-      challenge.userId = user._id;
-      challenge.save();
 
       // const user = await this.userModel.findOneAndUpdate(
       //   { email },

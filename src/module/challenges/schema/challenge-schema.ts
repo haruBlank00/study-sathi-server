@@ -35,6 +35,7 @@ export const ChallengeSchema = new mongoose.Schema<Challenge>({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: USER_MODEL,
+    required: true,
   },
   logs: [
     {
@@ -43,3 +44,5 @@ export const ChallengeSchema = new mongoose.Schema<Challenge>({
     },
   ],
 });
+
+ChallengeSchema.index({ name: 1, userId: 1 }, { unique: true });

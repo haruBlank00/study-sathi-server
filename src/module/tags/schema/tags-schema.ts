@@ -19,6 +19,12 @@ export const TagSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  ops: {
+    type: {
+      key: String,
+      value: String,
+    },
+  },
 });
 
 TagSchema.index({ tag: 1 });

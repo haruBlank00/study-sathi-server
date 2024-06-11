@@ -19,6 +19,7 @@ import { Request, Response } from 'express';
 interface ExtendedRequest extends Request {
   user: {
     email: string;
+    userId: string;
   };
 }
 
@@ -32,12 +33,12 @@ export class ChallengesController {
     @Req() request: ExtendedRequest,
     @Res() response: Response,
   ) {
-    const email = request.user.email;
-    if (!email) {
+    const { userId } = request.user;
+    if (!userId) {
       throw new UnauthorizedException('You are not authenticated.');
     }
 
-    const result = await this.challengesService.createChallenge(body, email);
+    const result = await this.challengesService.createChallenge(body, userId);
     if (!result.success) {
       throw new HttpException(result.message, HttpStatus.EXPECTATION_FAILED);
     }

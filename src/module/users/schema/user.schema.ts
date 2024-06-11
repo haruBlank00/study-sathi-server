@@ -10,6 +10,9 @@ export const UserSchema = new mongoose.Schema({
   name: {
     type: String,
   },
+  userName: {
+    type: String,
+  },
   email: String,
 
   magicLink: [

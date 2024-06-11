@@ -61,7 +61,7 @@ new winstonMongoDB.MongoDB({
   options: {
     useUnifiedTopology: true,
   },
-  collection: 'logs',
+  collection: 'systemLogs',
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.json(),

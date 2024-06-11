@@ -1,17 +1,14 @@
-version: '3.7'
-
 services:
-  postgres:
-    image: postgres:latest
-    restart: always
+  mongo:
+    image: mongo:latest
+    container_name: studysathi
     ports:
-      - '5432:5432'
+      - "27017:27017"
     environment:
-      POSTGRES_DB: study_sathi
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - dbdata6:/data/lib
 
 volumes:
-  pgdata:
+  dbdata6:
