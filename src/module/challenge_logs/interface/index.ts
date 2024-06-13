@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { Challenge } from 'src/module/challenges/interface';
 import { ErrorResponse, SuccessResponse } from 'src/ts/interface';
 
 export interface Log {
@@ -18,6 +19,7 @@ export type CreateLogResponse =
 export type GetLogsResponse =
   | SuccessResponse<{
       logs: Log[];
+      challenge: Challenge;
     }>
   | ErrorResponse;
 

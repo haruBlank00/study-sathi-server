@@ -11,10 +11,15 @@ import {
 } from './interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { last } from 'rxjs';
+import { CHALLENGES_MODEL } from '../challenges/constants';
+import { Challenge } from '../challenges/interface';
 
 @Injectable()
 export class LogsService {
-  constructor(@InjectModel(LOG_MODEL) private logModel: Model<Log>) {}
+  constructor(
+    @InjectModel(LOG_MODEL) private logModel: Model<Log>,
+    @InjectModel(CHALLENGES_MODEL) private challengeModel: Model<Challenge>,
+  ) {}
   async create(
     createLogDto: CreateLogDto,
     userId: string,
@@ -46,8 +51,14 @@ export class LogsService {
     }
   }
 
+  /*
+   * find all logs of current challenge
+   */
   async findAll(challengeId: string): Promise<GetLogsResponse> {
     try {
+      const challenge = await this.challengeModel
+        .findById(challengeId)
+        .populate('tags');
       const logs = await this.logModel.find({
         challenge: {
           _id: challengeId,
@@ -58,6 +69,7 @@ export class LogsService {
         success: true,
         data: {
           logs,
+          challenge,
         },
         message: 'Logs for current challenge fetched successfully.',
       };

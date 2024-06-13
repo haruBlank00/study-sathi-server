@@ -21,5 +21,13 @@ import { UsersModule } from '../users/users.module';
   ],
   providers: [ChallengesService, TagsService],
   controllers: [ChallengesController],
+  exports: [
+    MongooseModule.forFeature([
+      {
+        name: CHALLENGES_MODEL,
+        schema: ChallengeSchema,
+      },
+    ]),
+  ],
 })
 export class ChallengesModule {}

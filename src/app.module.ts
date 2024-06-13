@@ -14,6 +14,7 @@ import { UsersModule } from './module/users/users.module';
 import { ChallengesModule } from './module/challenges/challenges.module';
 import { TagsModule } from './module/tags/tags.module';
 import { LogsModule } from './module/challenge_logs/logs.module';
+import { S3Module } from './module/s3/s3.module';
 
 @Module({
   imports: [
@@ -34,6 +35,8 @@ import { LogsModule } from './module/challenge_logs/logs.module';
     ChallengesModule,
     TagsModule,
     LogsModule,
+    UsersModule,
+    S3Module,
   ],
   controllers: [AppController],
   providers: [AppService],
