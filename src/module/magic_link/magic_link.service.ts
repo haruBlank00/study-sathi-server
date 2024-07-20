@@ -123,8 +123,8 @@ export class MagicLinkService implements MagicLinkServiceInterface {
     );
 
     const { accessToken, refreshToken } = await this.generateTokens(
-      email,
       user._id,
+      email,
     );
 
     return {
@@ -148,7 +148,7 @@ export class MagicLinkService implements MagicLinkServiceInterface {
     return { magicLink, token };
   }
 
-  private async generateTokens(email: string, userId: string) {
+  public async generateTokens(email: string, userId: string) {
     const accessToken = await this.jwtService.signAsync(
       { email, userId },
       {
