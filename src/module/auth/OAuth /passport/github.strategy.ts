@@ -2,10 +2,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 
 import { Strategy, StrategyOptionsWithRequest } from 'passport-github2';
-import { AuthProviderEnum } from '../../auth.enum';
 
-// import { AuthService } from 'src/module/auth/auth.service';
-// import { UsersService } from 'src/module/users/users.service';
+import { AuthProviderEnum } from '../../auth.enum';
 
 @Injectable()
 export class GitHubStrategy extends PassportStrategy(

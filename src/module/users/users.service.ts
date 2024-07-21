@@ -46,7 +46,7 @@ export class UsersService {
   }
 
   /*
-   If the user does exist it return the existing user else create a new user.
+   If the user does exist it returns the existing user else create a new user.
    */
 
   async upsertUser({ email }: { email: string }) {
